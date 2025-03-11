@@ -1,0 +1,394 @@
+body {
+    margin:0;
+}
+
+.container {
+    background-image: radial-gradient(circle at center, rgb(16, 155, 224), rgba(108, 14, 159, 0.263));
+    /* background-color:rgba(0, 0, 255, 0.304) ; */
+    height: 100vh;
+    display: flex;;
+}
+
+.sidebar {
+/*侧栏*/
+
+   /* background-image: linear-gradient(to right, #ff0000, #00ff00);*/
+    width:260px;
+    height:100vh;
+    transition: width 0.2s;
+    overflow: auto;
+}
+
+.sidebar-nav {
+    /*包含了侧栏上的文字栏和伸缩按钮*/
+    padding:12px;
+    box-sizing: border-box;
+}
+
+.history {
+    margin-top:60px;
+    font-size: .75rem;
+    height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.history .title{
+    font-weight: bold;
+}
+
+.history .msg-item{
+    white-space: nowrap;
+    font-size: 1rem;
+    margin-top: 16px;
+    overflow-x: hidden;
+}
+/*下面四个是历史聊天框*/
+.history  .today {
+    margin-bottom: 24px;
+}
+
+.history  .yesterday {
+    margin-bottom: 24px;
+}
+
+.history  .last-7days {
+    margin-bottom: 24px;
+}
+
+.history  .last-30days {
+    margin-bottom: 24px;
+}
+
+.content {
+    /*聊天栏*/
+    flex:1;
+    padding:12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.fold {
+    font-size:30px;
+    color:#7d7d7d;
+}
+
+#btn-fold-out {
+    display: none;
+}
+
+.content-log{/*日志框，显示对话内容*/
+    flex:1;
+}
+
+.content-nav {
+    /*聊天框的空白部分*/
+    height: 100px;
+}
+
+.content-footer {
+    /*聊天框*/
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-chat-wrapper {
+    width: 650px;
+    background-color: rgb(244, 244, 244);
+    border-radius: 26px;
+    padding: .375rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#input-attachment {
+    margin-left: .375rem;
+    color: #0d0d0d;
+    font-size:28px;
+}
+
+#input-attachment.active {
+    margin-left: .375rem;
+    color: #2a59f4;
+    font-size:28px;
+}
+
+
+#input-chat {
+    outline: none;
+    border: none;
+    color:#0d0d0d;
+    width: 100%;
+    background-color: transparent;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: .5rem .75rem;
+}
+
+#input-send {
+    color: #d1d1d1;
+    font-size:32px;
+    margin:3px;
+}
+
+#input-send.active {
+    color: #090808;
+    background-color: rgb(244, 244, 244);
+}
+
+#res-log {
+    /*剩下的部分*/
+    overflow-y: auto;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    height: calc(100vh - 150px - 100px);
+}
+
+.self-msg {
+    padding-bottom: .625rem;
+    padding-top: .625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background-color: rgb(244, 244, 244);
+    border-radius: 1.5rem;
+    align-self: flex-end;
+    margin-bottom:24px;
+}
+
+.llm-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgb(0, 0, 255);
+}
+
+.llm-msg p {
+    word-wrap: break-word;
+    width: 100%;
+    align-self: flex-start;
+    margin-bottom:24px;
+}
+
+.llm-msg .tool-bar span{
+    padding:5px;
+}
+
+.llm-msg .tool-bar span:hover{
+    background-color: #f9f9f9;;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: rgba(13, 41, 253, 0.729);;
+    border: 1px solid #e3e8e9;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 1000;
+    color:white;
+}
+
+
+/* tooltip的初始样式，默认不显示 */
+.attchtooltip {
+    display: none;
+    position: absolute;
+    background-color: rgba(13, 41, 253, 0.729);;
+    border: 0px solid #d4d4d4;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(241, 241, 241, 0.2);
+    color: white;
+}
+
+/* 修改后的div样式，用于模仿原本的button样式 */
+.attchtooltip div {
+    display: block; /* 保持块级元素特性 */
+    width: 100%; /* 保持宽度充满tooltip容器 */
+    color: #f8f8fc; /* 维持相同的文字颜色 */
+    cursor: pointer; /* 当鼠标悬停时显示手型指针 */
+    text-align: left; /* 文字左对齐 */
+    font-size: 15px; /* 保持字体大小一致 */
+    padding: 8px 12px; /* 添加内边距以模仿button的默认内边距 */
+    user-select: none; /* 防止文本被选中，模仿button的行为 */
+    transition: background-color 0.3s; /* 添加背景色过渡效果，模仿hover状态 */
+}
+
+/* 模仿按钮hover状态 */
+.attchtooltip div:hover {
+    background-color: #e0e0e0; /* 更改背景色以反馈用户交互 */
+}
+
+
+.font1 {
+    font-family: 'Garamond', sans-serif;
+    font-weight: bold;
+}
+
+.font2 {
+    font-family: 'Garamond', serif;
+}
+
+.font3 {
+    font-family: 'Courier New', monospace;
+}
+
+#introduction {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 15px;
+    background-color: rgb(16, 155, 220);
+    margin-top:200px;
+    padding-bottom: .625rem;
+    padding-top: .625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+/* 增加回答的内容的底色和圆角和边距 */
+.llm-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 15px;
+    background-color: rgb(16, 155, 220);
+    margin-bottom:12px;
+    padding-bottom: .625rem;
+    padding-top: .625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+/* 修改边距 */
+.llm-msg p {
+    word-wrap: break-word;
+    width: 100%;
+    align-self: flex-start;
+    margin-bottom:24px;
+}
+
+.llm-msg .tool-bar span{
+    padding:5px;
+}
+
+.llm-msg .tool-bar span:hover{
+    background-color: #f9f9f9;;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/*动态加载效果*/
+.main-wrap {
+    background-color: rgb(16, 155, 220);
+    color: #fff;
+    height: 15px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.main-wrap--white {
+  background-color: #ffffff;
+}
+
+#cssLoader1.main-wrap .child-common
+{
+    width: 8px;
+    height: 15px;
+    /*margin-right:5px;*/
+    margin-right:3px;
+    background-color: #000;
+    -webkit-animation: animate1 1s infinite;
+    animation: animate1 1s infinite;
+    float: left;
+}
+
+#cssLoader1.main-wrap .child1
+{
+   margin-right: 3px;
+}
+
+#cssLoader1.main-wrap .child10
+{
+  -webkit-animation-delay: 0.9s;
+  animation-delay: 0.9s;
+}
+
+#cssLoader1.main-wrap .child9
+{
+   -webkit-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+
+#cssLoader1.main-wrap .child8
+{
+   -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+
+#cssLoader1.main-wrap .child7
+{
+   -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+#cssLoader1.main-wrap .child6
+{
+   -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+
+#cssLoader1.main-wrap .child5
+{
+   -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+#cssLoader1.main-wrap .child4
+{
+   -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+#cssLoader1.main-wrap .child3
+{
+   -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+#cssLoader1.main-wrap .child2
+{
+   -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+@-webkit-keyframes animate1 {
+
+  50% {
+    -ms-transform: scaleY(0);
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+
+  }
+}
+
+@keyframes animate1 {
+  50% {
+    -ms-transform: scaleY(0);
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+  }
+}
+/*loader1 css ends*/

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- saved from url=(0155)https://cn.tripadvisor.com/static/gtm/gtm1p.html?gtmParams=&parentDomain=https%3A%2F%2Fcn.tripadvisor.com&targetingConsent=granted&analyticsConsent=granted -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Google Tag Manager -->
+    <script async="" src="./gtm.js.下载"></script><script>
+	window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        // Add consent
+        const targetingConsent = urlSearchParams.get('targetingConsent');
+        gtag('consent', 'default', {
+            'ad_storage': targetingConsent || 'denied',
+            'ad_user_data': targetingConsent || 'denied',
+            'ad_personalization': targetingConsent || 'denied',
+            'analytics_storage': urlSearchParams.get('analyticsConsent') || 'denied'
+        });
+        const gtmParams = urlSearchParams.get('gtmParams') || "";
+        const gtmContainerId = urlSearchParams.get('gtmContainerId') || "GTM-MNJM3CSJ";
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                          'gtm.start':
+                              new Date().getTime(), event: 'gtm.js'
+                      });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl + gtmParams;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', gtmContainerId);
+    </script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+<!-- Message Communication between iframe and TA main document-->
+<script>
+    // Domain from which the script is invoked
+    // Eg: webml,hare,etc
+    const parentDomain = urlSearchParams.get('parentDomain');
+    let messagePort; // ref to store message port for gtm communication
+
+    window.addEventListener('message', onMessage);
+
+    function onGTMMessage(e) {
+        window.dataLayer.push(e.data);
+    }
+
+    function onMessage(msg) {
+        if (msg.origin === parentDomain && msg.ports && msg.ports[0] && msg.data === "initGTMMessagePort") {
+            messagePort = msg.ports[0];
+            messagePort.onmessage = onGTMMessage;
+        }
+    }
+</script>
+
+
+</body></html>

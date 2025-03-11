@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="width=device-width,initial-scale=1.0" name="viewport">
+        <meta charset="utf-8">
+        <title>Web UI</title>
+        <link rel="stylesheet" href="./assets/font/iconfont.css">
+        <link rel="stylesheet" href="./assets/css/index.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="sidebar">
+                <div class="sidebar-nav">
+                    <span id="btn-fold-in" class="iconfont icon-zhedie1 fold"></span>
+                    <div class="history">
+                        <div class="today"></div>
+                        <div class="yesterday"></div>
+                        <div class="last-7days"></div>
+                        <div class="last-30days"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="background-color: white;">
+                <div class="content-log">
+                    <div class="content-nav">
+                        <span id="btn-fold-out" class="iconfont icon-zhedie2 fold"></span>
+                        <span class="font1">天津旅行助手</span>
+                        <span class = "font2">2.5</span>
+                    </div>
+                    <div id="res-log">
+                        <div id="introduction">
+                        <p>天津旅行助手，一款基于大语言模型的智能规划工具，通过深度理解游客需求，提供个性化行程规划、景点深度介绍、美食探索及交通导航等全方位服务，旨在让每位游客享受量身定制的天津之旅，提升旅行体验。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-footer">
+                    <div class="input-chat-wrapper">
+                        <span id="input-attachment" class="iconfont icon-fujian"></span>
+                        <div id="attchtooltip" class="attchtooltip" style="display: none;">
+                            <div id="btn-upload-document">上传文档</div>
+                            <div id="btn-upload-image">上传图片</div>
+                        </div>
+                        <input id="input-chat" placeholder="输入”/“唤起指令中心，Shift+Enter换行，支持拖拽或粘贴上传文件">
+                        <div id="tooltip" class="tooltip">请输入你的问题</div>
+                        <span id="input-send"  class="iconfont icon-shangchuan"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="./index.js"></script>
+<script>
+const today = document.querySelector('.today');
+const yesterday = document.querySelector('.yesterday');
+const last7days = document.querySelector('.last-7days');
+const last30days = document.querySelector('.last-30days');
+
+/*
+const shangchuantupian = document.querySelector('.shangchuanwendnag');
+const shangchuanwendang = document.querySelector(".shangchuantupian")
+
+shangchuantupian.innerHTML = `
+    <div class="msg-item">上传文档</div>
+    <div class="msg-item">上传图片</div>
+`
+*/
+
+today.innerHTML = `
+    <div class="title">今天</div>
+    <div class="msg-item">The role of scientific data collection in regulatory processes is at stake.</div>
+    <div class="msg-item">The role of scientific .</div>
+    <div class="msg-item">The role of scientifiory processes is at stake.</div>
+`
+
+yesterday.innerHTML = `
+    <div class="title">昨天</div>
+    <div class="msg-item">The role of scientific data collection in regulatory processes is at stake.</div>
+    <div class="msg-item">The role of scientific .</div>
+    <div class="msg-item">The role of scientifiory processes is at stake.</div>
+`
+
+last7days.innerHTML = `
+    <div class="title">最近7天</div>
+    <div class="msg-item">The role of scientific data collection in regulatory processes is at stake.</div>
+    <div class="msg-item">The role of scientific .</div>
+    <div class="msg-item">The role of scientifiory processes is at stake.</div>
+    <div class="msg-item">The role of scientific data collection in regulatory processes is at stake.</div>
+`
+
+last30days.innerHTML = `
+    <div class="title">最近30天</div>
+    <div class="msg-item">The role of scientific data collection in regulatory processes is at stake.</div>
+    <div class="msg-item">The role of scientific .</div>
+    <div class="msg-item">The role of scientifiory processes is at stake.</div>
+`
+</script>

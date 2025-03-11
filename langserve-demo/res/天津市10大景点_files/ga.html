@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- saved from url=(0192)https://cn.tripadvisor.com/static/ga/ga.html?gaMeasurementId=G-QX0Q50ZC9P&parentDomain=https%3A%2F%2Fcn.tripadvisor.com&enableGAConsentV2=true&targetingConsent=granted&analyticsConsent=granted -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Google Analytics -->
+    <script async="" src="./js"></script><script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        if (urlSearchParams.get('enableGAConsentV2')) {
+            // Add consent
+            const targetingConsent = urlSearchParams.get('targetingConsent');
+            gtag('consent', 'default', {
+                'ad_storage': targetingConsent || 'denied',
+                'ad_user_data': targetingConsent || 'denied',
+                'ad_personalization': targetingConsent || 'denied',
+                'analytics_storage': urlSearchParams.get('analyticsConsent') || 'denied'
+            });
+        }
+        var gaMeasurementId = urlSearchParams.get('gaMeasurementId') || "";
+        var isDebug = urlSearchParams.get('debug') === "true";
+        var userId = urlSearchParams.get('userId');
+        // Domain from which the script is invoked
+        // Eg: webml, hare ,etc
+        var parentDomain = urlSearchParams.get('parentDomain');
+        (function(w, d, i) {
+            var f = d.getElementsByTagName('script')[0],
+                j = d.createElement('script');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtag/js?id=' + i;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, gaMeasurementId);
+
+        var config = {
+            send_page_view: false,
+            debug_mode: isDebug,
+        };
+
+        if (userId) {
+            config["user_id"] = userId;
+        }
+
+        // Safely extend window.googletag without overwriting existing configurations
+        if (typeof window.googletag === "undefined") {
+            window.googletag = { queryIds: [] };
+        } else {
+            window.googletag.queryIds = window.googletag.queryIds || [];
+        }
+        gtag('js', new Date());
+        gtag('config', gaMeasurementId, config);
+
+    </script>
+    <!-- End Google Analytics -->
+</head>
+<body>
+<!-- Message Communication between iframe and TA main document-->
+<script>
+    var messagePort; // ref to store message port for ga communication
+    window.addEventListener('message', onMessage);
+
+    function onGAMessage(e) {
+        var event = e.data;
+        if (event === "GAIdReq") {
+            if (!messagePort) {
+                console.error(`gtag: <IFRAME> tried to respond to GAIdReq without a messagePort active`);
+                return
+            }
+            gtag('get', gaMeasurementId, 'client_id', function(client_id) {
+                gtag('get', gaMeasurementId, 'session_id', function(session_id) {
+                    var msg = {message:'GAIdResp', response: { client_id: client_id, session_id: session_id} }
+                    // send the ids back through the message port
+                    messagePort.postMessage(msg);
+                });
+            });
+        } else if (event.event === "queryIdReceived") {
+            window.googletag.queryIds.push(event.data.queryId);
+        } else {
+            gtag('event', event.event, event.data);
+        }
+    }
+
+    function onMessage(msg) {
+        if (msg.origin === parentDomain && msg.ports && msg.ports[0] && msg.data === "initGAMessagePort") {
+            messagePort = msg.ports[0];
+            messagePort.onmessage = onGAMessage;
+        }
+    }
+</script>
+
+
+</body></html>

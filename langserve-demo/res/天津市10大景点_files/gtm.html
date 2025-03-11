@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- saved from url=(0124)https://www.jscache.com/static/gtm/gtm.html?gtmParams=&parentDomain=https%3A%2F%2Fcn.tripadvisor.com&enableGTMConsentV2=true -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Google Tag Manager -->
+    <script async="" src="./gtm(1).js.下载"></script><script>
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        const gtmParams = params['gtmParams'] || "";
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                          'gtm.start':
+                              new Date().getTime(), event: 'gtm.js'
+                      });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl + gtmParams;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KHCNJRC');
+    </script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+<!-- Message Communication between iframe and TA main document-->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    // Domain from which the script is invoked
+    // Eg: webml, hare ,etc
+    const parentDomain = params['parentDomain'];
+    let messagePort; // ref to store message port for gtm communication
+    window.addEventListener('message', onMessage);
+
+    function onGTMMessage(e) {
+        window.dataLayer.push(e.data);
+    }
+
+    function onMessage(msg) {
+        if (msg.origin === parentDomain && msg.ports && msg.ports[0] && msg.data === "initGTMMessagePort") {
+            // To be removed once GTMConsentV2 is rolled out.
+            messagePort = msg.ports[0];
+            messagePort.onmessage = onGTMMessage;
+        } else if (msg.origin === parentDomain && msg.ports && msg.ports[0] && params['enableGTMConsentV2'] && msg.data && msg.data.type === "initGTMMessagePort") {
+            messagePort = msg.ports[0];
+            messagePort.onmessage = onGTMMessage;
+            gtag('consent', 'default', msg.data.consentParams);
+        }
+    }
+
+    // Do not modify/rename/remove this function. This is used by gtm template which is accessible from gtm portal(Google tag manager monitoring)
+    // https://tagmanager.google.com/#/container/accounts/6007416528/containers/67750165/workspaces/18/templates
+    function gtmMetricsCallback(data) {
+        if (messagePort) {
+            messagePort.postMessage(data);
+        }
+    }
+</script>
+
+</body></html>
