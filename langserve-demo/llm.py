@@ -11,11 +11,14 @@ from time import sleep
 from urllib.parse import quote
 import flight
 import TrainTickets
-from embedText import embedText
-
 # 加载环境变量
 _ = load_dotenv(find_dotenv())
-filepath='./res/天津市10大景点.html'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(BASE_DIR)
+RAG_SOURCE_FILE = os.getenv("RAG_SOURCE_FILE", os.path.join(BASE_DIR, "res", "天津市10大景点.html"))
+if not os.path.isabs(RAG_SOURCE_FILE):
+    RAG_SOURCE_FILE = os.path.join(REPO_ROOT, RAG_SOURCE_FILE)
+ENABLE_RAG = os.getenv("ENABLE_RAG", "false").lower() in {"1", "true", "yes", "on"}
 
 # 获取 API 密钥
 ZHIPUAI_API_KEY = os.getenv("ZHIPUAI_API_KEY")
@@ -34,8 +37,19 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
         store[session_id] = ChatMessageHistory()
     return store[session_id]
 
+def build_prompt(prompt: str, use_rag: bool = False) -> str:
+    if use_rag and ENABLE_RAG:
+        try:
+            from embedText import embedText
+
+            context = embedText(prompt, file_path=RAG_SOURCE_FILE)
+            return f"提示信息：{context}\n请参考与提示信息相关的资料，回答问题：{prompt}"
+        except Exception as exc:
+            print(f"RAG fallback: {exc}")
+    return "请回答问题：" + prompt
+
 # 定义一个自定义的函数来生成文本
-def generate_text_with_zhipuai(prompt: str, session_id: str) -> str:
+def generate_text_with_zhipuai(prompt: str, session_id: str, use_rag: bool = False) -> str:
     chat_history = get_session_history(session_id)
     messages = [{"role": "system", "content": "你是一个旅游助手，请帮助用户提供旅游信息。"}]
     for msg in chat_history.messages:
@@ -43,11 +57,7 @@ def generate_text_with_zhipuai(prompt: str, session_id: str) -> str:
             messages.append({"role": "user", "content": msg.content})
         elif isinstance(msg, AIMessage):
             messages.append({"role": "assistant", "content": msg.content})
-    ###
-    # inform='提示信息：'+embedText(prompt,file_path=filepath)+'请参考与提示信息相关的资料，回答问题：'
-    inform = '请回答问题：'
-    prompt=inform+prompt
-    ###
+    prompt = build_prompt(prompt, use_rag=use_rag)
     messages.append({"role": "user", "content": prompt})
     
     completion = client.chat.completions.create(
@@ -147,7 +157,7 @@ def generate_response(session_id, user_input, dp=None, ds=None, da=None):
         # 更新缓存变量
         dp, ds, da = current_departure_e, current_destination_e, current_departure_date
 
-    response_content = generate_text_with_zhipuai(user_input, session_id)
+    response_content = generate_text_with_zhipuai(user_input, session_id, use_rag=True)
     chat_history.add_message(HumanMessage(content=response_content))
     
     return response_content, dp, ds, da, flights_info, trains_info
