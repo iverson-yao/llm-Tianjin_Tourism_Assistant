@@ -18,10 +18,12 @@ _ = load_dotenv(find_dotenv())
 filepath='./res/天津市10大景点.html'
 
 # 获取 API 密钥
-
+ZHIPUAI_API_KEY = os.getenv("ZHIPUAI_API_KEY")
+if not ZHIPUAI_API_KEY:
+    raise RuntimeError("ZHIPUAI_API_KEY is not set. Add it to your local .env file.")
 
 # 配置 ZhipuAI
-client = ZhipuAI(api_key="REMOVED_EXPOSED_API_KEY")
+client = ZhipuAI(api_key=ZHIPUAI_API_KEY)
 
 # 创建一个存储用于保存会话历史记录
 store = {}

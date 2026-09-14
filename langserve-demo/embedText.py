@@ -3,6 +3,7 @@ from langchain.document_loaders import PyPDFLoader,BSHTMLLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings.baichuan import BaichuanTextEmbeddings
 from langchain.vectorstores import Chroma
+import os
 
 def embedText(query, file_path):
     loader = BSHTMLLoader(file_path,open_encoding='utf-8')
@@ -15,8 +16,12 @@ def embedText(query, file_path):
     txt=txtspliter.split_documents(hcontent)
 
 
+    BAICHUAN_API_KEY = os.getenv("BAICHUAN_API_KEY")
+    if not BAICHUAN_API_KEY:
+        raise RuntimeError("BAICHUAN_API_KEY is not set. Add it to your local .env file.")
+
     embedmodel = BaichuanTextEmbeddings(
-        api_key='REMOVED_EXPOSED_API_KEY',
+        api_key=BAICHUAN_API_KEY,
     )
     vecstore = Chroma.from_documents(
         documents=txt,
