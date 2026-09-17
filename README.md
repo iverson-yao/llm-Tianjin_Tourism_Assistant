@@ -1,6 +1,13 @@
-# Tianjin Travel Assistant
+# Tianjin LLM Travel Assistant
 
-Team software engineering training project guided by Chinasoft International instructors. The project implements an LLM-based travel assistant for Tianjin travel queries, with a FastAPI backend, conversational state, train/flight information retrieval, and a browser-based user interface.
+LLM-powered travel assistant for Tianjin travel queries, built as a team software engineering training project guided by Chinasoft International instructors.
+
+**Tech Stack:** Python · FastAPI · LangChain · Chroma · Baichuan Embeddings · HTML/CSS/JavaScript
+
+**Highlights**
+- Supports conversational travel queries with structured train/flight information retrieval.
+- Includes an optional RAG pipeline for retrieving local Tianjin travel context.
+- My primary contributions were frontend development, RAG prototyping, module integration, and cross-component debugging.
 
 ## Overview
 
@@ -15,6 +22,12 @@ This repository is a cleaned public version for portfolio and resume review. Sec
 - `langserve-demo/flight.py` and `langserve-demo/TrainTickets.py`: Travel information retrieval modules.
 - `langserve-demo/embedText.py`: Optional retrieval-augmentation prototype using LangChain, Chroma, and Baichuan embeddings.
 - `node-server/` and frontend static files: Browser UI and request handling for the assistant interface.
+
+## My Contributions
+
+- Developed the frontend of the LLM-based travel assistant and integrated it with FastAPI backend services for conversational travel queries and structured train/flight information.
+- Implemented an optional RAG prototype using LangChain, Chroma, and Baichuan embeddings to retrieve local Tianjin travel context for LLM prompts.
+- Integrated independently developed frontend, LLM, retrieval, and travel-information components, resolving interface mismatches and runtime issues during team delivery.
 
 ## Optional Retrieval Augmentation
 
@@ -55,12 +68,9 @@ python server.py
 
 The backend starts on port `8000` by default.
 
-## My Contributions
+## Team Scope
 
-- Developed the frontend of the LLM-based travel assistant and connected it with backend services for conversational travel queries and structured train/flight information.
-- Implemented an optional retrieval-augmentation prototype using LangChain, Chroma, and Baichuan embeddings to retrieve local Tianjin travel context for LLM prompting.
-- Integrated frontend, LLM, retrieval, and travel information modules during team delivery, resolving interface mismatches and runtime issues across independently developed components.
-- Collaborated on system testing and debugging for LLM response generation, retrieval augmentation, travel information retrieval, and final project demonstration.
+This was a team project. Other teammates contributed to the LLM backend, travel-information modules, and additional components. The contribution statements above describe the parts I personally focused on.
 
 ## Team
 
